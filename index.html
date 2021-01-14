@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-2041825-4"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'UA-2041825-4');
+</script>
+
+<title>Kleki - Paint Tool</title>
+<meta charset="utf-8">
+<META name="description"
+content="Paint online with natural brushes, layers, and edit your drawings. No plug-ins, free. Import, save, and upload images. Inspired by Paint Tool SAI, Oekaki Shi Painter, and Harmony.">
+<META name="keywords"
+content="draw, digital painting, draw online, html5, canvas, chrome, painting, sketch, free, sketching, bitbof">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#fff">
+<meta name="application-name" content="Kleki">
+	<meta name="author" content="bitbof">
+<meta http-equiv="Content-Security-Policy" content="object-src 'none'; frame-src 'self' https://dialog.filepicker.io/; script-src 'unsafe-inline' 'self' https://www.google-analytics.com/analytics.js http://api.filepicker.io/v1/filepicker.js">
+<link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/bdndldkfimmnnfbagnkjgnemgpjadbag">
+
+<link rel="apple-touch-icon" href="0-4-15--176eb290fdd/img/ios_icon.png"/>
+<link rel="icon" type="image/png" sizes="16x16" href="0-4-15--176eb290fdd/img/icon-16x16-min.png">
+<link rel="icon" type="image/png" sizes="32x32" href="0-4-15--176eb290fdd/img/icon-32x32-min.png">
+<link rel="icon" type="image/png" sizes="96x96" href="0-4-15--176eb290fdd/img/icon-96x96-min.png">
+
+<meta property="og:title" content="Kleki - Paint Tool"/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://kleki.com/"/>
+<meta property="og:image" content="https://kleki.com/0-4-15--176eb290fdd/img/kleki-logomark-512x512.png"/>
+<meta property="og:description"
+content="Free web-app for painting and editing. Features different brushes, layers, filters, import, upload, pressure sensitivity, and more."/>
+<meta property="og:site_name" content="Kleki"/>
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Kleki - Paint Tool" />
+<meta name="twitter:description" content="Free web-app for painting and editing. Features different brushes, layers, filters, import, upload, pressure sensitivity, and more." />
+<meta name="twitter:image" content="https://kleki.com/0-4-15--176eb290fdd/img/kleki-logomark-512x512.png" />
+<meta name="twitter:site" content="Kleki" />
+
+<script>
+/* (c) bitbof.com 2010-2020
+*  This code is only permitted to run on kleki.com
+*  Further credits: https://kleki.com/about/
+*/
+"use strict";
+
+var KLEKI = {
+version: '0.4.15',
+versionHash: '176eb290fdd',
+lastUpdate: '2021-01-10',
+startTime: new Date().getTime(),
+isInDialog: 0,
+lastReminderResetAt: performance.now(),
+isInitialized: false,
+onInit: function() {
+setTimeout(function() {
+let srcArr = [
+'0-4-15--176eb290fdd/js/bv-filters-lazy.js',
+'0-4-15--176eb290fdd/js-vendor/glfx.js',
+'0-4-15--176eb290fdd/js-vendor/agpsd-bundle.min.js'
+];
+let head = document.getElementsByTagName('head')[0];
+for(let i = 0; i < srcArr.length; i++) {
+let script = document.createElement('script');
+script.src = srcArr[i];
+head.appendChild(script);
+}
+}, 250);
+}
+};
+
+
+(function() {
+
+if (/bot|google|baidu|bing|msn|duckduckbot|teoma|slurp|yandex/i.test(navigator.userAgent)) {
+return;
+}
+
+var errorCount = 0;
+var isLoaded = false;
+function showErrorPage() {
+if(KLEKI.isInitialized) {
+return;
+}
+if(!document.body) {
+setTimeout(showErrorPage, 20);
+return;
+}
+var div = document.createElement("div");
+div.className = 'init-error';
+div.innerHTML = [
+'<div><img src="0-4-15--176eb290fdd/img/kleki-logo.svg" alt="Kleki Logo"/><br/><b>⚠ Failed to initialize</b><br/>Please try again later.',
+'',
+'<a href="./home/">Home</a> | <a href="./gallery/">Gallery</a> | <a href="./help/">Help</a> | <a href="./about/">About</a> | <a href="./donate/">Donate</a>',
+'',
+'<a href="https://bitbof.com">bitbof</a></div>'
+].join('<br>');
+document.body.appendChild(div);
+}
+function logError(e, url, line) {
+var elapsed = performance.now();
+var s = Math.round(elapsed / 1000);
+var t = Math.floor(s / 60, 10) + "m" + (s % 60) + "s ";
+gtag('event', KLEKI.version + ": " + e + ' URL:' + url + ' Line:' + line, {
+event_category: 'Error',
+event_label: t
+});
+}
+function onError(e) {
+showErrorPage();
+if(
+!e.filename || !e.message ||
+e.filename.indexOf('chrome-extension://') === 0 ||
+e.message.indexOf("Cannot set property 'install'") > -1 ||
+e.message.indexOf("EvalError") > -1 ||
+e.message.indexOf("ResizeObserver loop limit exceeded") > -1
+) {
+return;
+}
+logError(e.message, e.filename, e.lineno);
+if(++errorCount > 3) {
+window.removeEventListener('error', onError);
+}
+}
+window.addEventListener('error', onError);
+
+})();
+
+
+</script>
+
+<script src="0-4-15--176eb290fdd/js-vendor/filesaver.js"></script>
+
+<link rel="stylesheet" href="0-4-15--176eb290fdd/style.css"/>
+<script src="0-4-15--176eb290fdd/js/bv.js"></script>
+<script src="0-4-15--176eb290fdd/js/bv-input.js"></script>
+<script src="0-4-15--176eb290fdd/js/bv-ui.js"></script>
+<script src="0-4-15--176eb290fdd/js/bv-brushes.js"></script>
+<script src="0-4-15--176eb290fdd/js/bv-brushes-ui.js"></script>
+<script src="0-4-15--176eb290fdd/js/bv-filters.js"></script>
+<script src="0-4-15--176eb290fdd/js/main.js"></script>
+</head>
+<body>
+<div id="loading-screen"></div>
+</body>
+</html>
